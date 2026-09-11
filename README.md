@@ -4,6 +4,7 @@ A single-page productivity workspace - dashboard, Kanban projects, Markdown note
 
 **Live demo:** https://nexus-productivity.pages.dev
 *(Installable as a PWA - open the link on desktop or mobile and use "Add to Home Screen" / "Install app".)*
+![Nexus Dashboard](nexus-dashboard-demo.png)
 
 ---
 
