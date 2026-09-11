@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nexus — Personal Productivity OS</title>
+<meta name="description" content="Dashboard, projects, notes and calendar in one fast, offline-capable workspace.">
+<meta property="og:title" content="Nexus — Personal Productivity OS">
+<meta property="og:description" content="Dashboard, projects, notes and calendar in one fast, offline-capable workspace.">
+<meta property="og:image" content="https://nexus-productivity.pages.dev/assets/icon-192.png">
+<meta property="og:url" content="https://nexus-productivity.pages.dev">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B0E14">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png">
+<link rel="apple-touch-icon" href="./assets/icon-192.png">
+<link rel="stylesheet" href="./css/variables.css">
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/components.css">
+</head>
+<body>
+<div id="app-shell">
+  <div class="scrim" id="scrim"></div>
+  <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+  <div class="main-col">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <span class="topbar__title" id="topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar__actions">
+        <span class="topbar__meta" id="topbar-clock"></span>
+      </div>
+    </header>
+    <main id="view-root" role="main" aria-live="polite"></main>
+  </div>
+</div>
+<div id="toast-root" aria-live="polite"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script type="module" src="./js/app.js"></script>
+<script>
+  // live clock in topbar
+  function tickClock(){
+    const el = document.getElementById('topbar-clock');
+    if (!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+  }
+  tickClock();
+  setInterval(tickClock, 15000);
+  // register service worker for offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(err => console.warn('[nexus] SW registration failed', err));
+    });
+  }
+</script>
+</body>
+</html>
